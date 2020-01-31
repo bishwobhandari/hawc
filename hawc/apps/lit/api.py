@@ -25,13 +25,21 @@ class LiteratureAssessmentViewset(viewsets.GenericViewSet):
         return Response(df)
 
     @decorators.detail_route(
-        methods=("get",), renderer_classes=PandasRenderers, url_path="reference-ids"
+        methods=("get", "post"), renderer_classes=PandasRenderers, url_path="reference-ids"
     )
     def reference_ids(self, request, pk):
         """
         Get literature reference ids for all assessment references
         """
         instance = self.get_object()
+
+        if self.request.method == "POST":
+            serializer = serializers.BulkReferenceIdentifierAssignment(
+                data=request.data, context={"assessment": instance}
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.create_and_apply_identifiers()
+
         qs = models.Reference.objects.assessment_qs(instance.id)
         df = models.Reference.objects.identifiers_dataframe(qs)
         return Response(df)
