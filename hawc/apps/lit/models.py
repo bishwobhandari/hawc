@@ -575,6 +575,9 @@ class Reference(models.Model):
         help_text="Link to full-text URL from journal site (may require increased "
         "access privileges to view)",
     )
+    pubmed_id = models.IntegerField(blank=True, null=True)
+    hero_id = models.IntegerField(blank=True, null=True)
+    doi = models.CharField(max_length=128, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     block_id = models.DateTimeField(

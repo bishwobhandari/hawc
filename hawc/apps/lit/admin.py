@@ -45,6 +45,9 @@ class ReferenceAdmin(admin.ModelAdmin):
         "year",
         "journal",
         "full_text_url",
+        "doi",
+        "pubmed_id",
+        "hero_id",
         "created",
     )
     list_filter = ("year", "assessment")
