@@ -33,4 +33,8 @@ def validate_csv(value: str, expected_columns: Set) -> pd.DataFrame:
     if df.shape[0] == 0:
         raise serializers.ValidationError("CSV has no data")
 
+    # ensure we don't have duplicates in our data
+    if df.duplicated().any():
+        raise serializers.ValidationError("CSV has duplicate rows")
+
     return df
